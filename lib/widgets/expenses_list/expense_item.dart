@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:track_coin/models/expense_model.dart';
+import 'package:track_coin/widgets/expenses_list/expense_icon.dart';
 
 class ExpenseItem extends StatelessWidget {
   const ExpenseItem(this.expense, {super.key});
@@ -9,32 +11,53 @@ class ExpenseItem extends StatelessWidget {
 
   @override
   Widget build(context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 15,
-        ),
-        child: Row(
-          children: [
-            Icon(categoryIcons[expense.category]),
-            const SizedBox(width: 25),
-            Column(
-              children: [
-                Text(expense.title),
-                const SizedBox(height: 4),
-                Text(expense.category.toString()),
-              ],
-            ),
-            const Spacer(),
-            Column(
-              children: [
-                Text('\$${expense.amount.toStringAsFixed(2)}'),
-                const SizedBox(height: 4),
-                Text(expense.formattedDate),
-              ],
-            )
-          ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: Card(
+        elevation: 0,
+        color: const Color.fromARGB(255, 245, 245, 245),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 15,
+            vertical: 10,
+          ),
+          child: Row(
+            children: [
+              ExpenseIcon(expense.category),
+              const SizedBox(width: 25),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    expense.title,
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                  //const SizedBox(height: 1),
+                  Text(
+                    toBeginningOfSentenceCase(expense.category.name),
+                    style: const TextStyle(
+                        fontSize: 12, fontWeight: FontWeight.w400, color: Color.fromARGB(255, 150, 150, 150)),
+                  ),
+                ],
+              ),
+              const Spacer(),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    '\$${expense.amount.toStringAsFixed(2)}',
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+                  Text(
+                    expense.formattedDate,
+                    style: const TextStyle(
+                        fontSize: 10, fontWeight: FontWeight.w400, color: Color.fromARGB(255, 150, 150, 150)),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

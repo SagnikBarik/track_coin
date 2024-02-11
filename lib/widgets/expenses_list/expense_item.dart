@@ -14,8 +14,6 @@ class ExpenseItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Card(
-        elevation: 0,
-        color: const Color.fromARGB(255, 245, 245, 245),
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 15,
@@ -46,7 +44,7 @@ class ExpenseItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    '\$${expense.amount.toStringAsFixed(2)}',
+                    '- \u{20B9}${expense.amount.toStringAsFixed(2)}',
                     style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
                   Text(

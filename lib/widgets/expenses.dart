@@ -37,13 +37,19 @@ class _ExpancesState extends State<Expenses> {
       title: 'Uber',
       amount: 3.99,
       date: DateTime.now(),
-      category: Category.travel,
+      category: Category.travelling,
     ),
     Expense(
       title: 'MacBook',
       amount: 1699,
       date: DateTime.now(),
       category: Category.shopping,
+    ),
+    Expense(
+      title: 'Vegetables',
+      amount: 15.69,
+      date: DateTime.now(),
+      category: Category.grocery,
     )
   ];
 
@@ -63,11 +69,13 @@ class _ExpancesState extends State<Expenses> {
       SnackBar(
         content: const Text('Expense Deleted'),
         duration: const Duration(seconds: 2),
-        action: SnackBarAction(label: 'Undo', onPressed: (){
-          setState(() {
-            _registeredExpences.insert(expenseIndex, expense);
-          });
-        }),
+        action: SnackBarAction(
+            label: 'Undo',
+            onPressed: () {
+              setState(() {
+                _registeredExpences.insert(expenseIndex, expense);
+              });
+            }),
       ),
     );
   }
@@ -75,6 +83,11 @@ class _ExpancesState extends State<Expenses> {
   void _openOverlay() {
     showModalBottomSheet(
       isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
+        ),
+      ),
       context: context,
       builder: (ctx) => NewExpense(onAddExpense: _addExpense),
     );
@@ -83,7 +96,7 @@ class _ExpancesState extends State<Expenses> {
   @override
   Widget build(context) {
     Widget mainContent = const Center(
-      child: Text('No Expences Found'),
+      child: Text('No Expenses Found'),
     );
 
     if (_registeredExpences.isNotEmpty) {

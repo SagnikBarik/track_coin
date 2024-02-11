@@ -22,7 +22,7 @@ class _NewExpenseState extends State<NewExpense> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime? _selectedDate;
-  Category _selectedCategory = Category.shopping;
+  Category _selectedCategory = Category.grocery;
 
   @override
   void dispose() {
@@ -81,92 +81,92 @@ class _NewExpenseState extends State<NewExpense> {
 
   @override
   Widget build(context) {
-    return Container(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: _titleController,
-                maxLength: 50,
-                decoration: const InputDecoration(
-                  label: Text('Title'),
-                  border: OutlineInputBorder(),
-                ),
+    return Padding(
+        padding: EdgeInsets.only(
+            top: 30,
+            right: 20,
+            left: 20,
+            bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            TextField(
+              controller: _titleController,
+              decoration: const InputDecoration(
+                label: Text('Title'),
+                hintText: 'Carrots',
+                hintStyle: TextStyle(color: Color.fromARGB(255, 171, 171, 171), fontWeight: FontWeight.normal),
+                contentPadding: EdgeInsets.only(top: 0.0, bottom: 0.0),
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _amountController,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        label: Text('Amount'),
-                        prefixText: '\$ ',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          _selectedDate == null
-                              ? 'Select Date'
-                              : formatter.format(_selectedDate!),
-                        ),
-                        IconButton(
-                          onPressed: _presentDatePicker,
-                          icon: const Icon(Icons.calendar_month),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 25),
+            TextField(
+              controller: _amountController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                prefixText: '\u{20B9} ',
+                hintText: '0.00',
+                label: Text('Amount'),
+                contentPadding: EdgeInsets.only(top: 0.0, bottom: 0.0),
               ),
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  DropdownButton(
-                    value: _selectedCategory,
-                    items: Category.values
-                        .map(
-                          (category) => DropdownMenuItem(
-                            value: category,
-                            child: Text(
-                              toBeginningOfSentenceCase(category.name),
-                            ),
-                          ),
-                        )
-                        .toList(),
-                    onChanged: (value) {
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 25),
+            const Text('Select Date'),
+            TextButton.icon(
+              onPressed: _presentDatePicker,
+              style: TextButton.styleFrom(padding: EdgeInsets.zero),
+              icon: const Icon(Icons.calendar_today_rounded),
+              label: Text(
+                _selectedDate == null
+                    ? 'MM/DD/YYYY'
+                    : formatter.format(_selectedDate!),
+              ),
+            ),
+            const SizedBox(height: 10),
+            const Text('Select Category'),
+            const SizedBox(height: 10),
+            Wrap(
+              spacing: 10,
+              children: List<Widget>.generate(
+                Category.values.length,
+                (int option) {
+                  return ChoiceChip(
+                    selectedColor: Colors.black,
+                    disabledColor: const Color.fromARGB(255, 225, 231, 239),
+                    selected: _selectedCategory == Category.values[option],
+                    showCheckmark: false,
+                    label: Text(
+                      toBeginningOfSentenceCase(
+                          Category.values[option].toString().split('.').last),
+                      style: TextStyle(
+                          color: _selectedCategory == Category.values[option]
+                              ? Colors.white
+                              : Colors.black),
+                    ),
+                    onSelected: (bool selected) {
                       setState(() {
-                        if (value == null) {
-                          return;
-                        }
-                        _selectedCategory = value;
+                        _selectedCategory =
+                            (selected ? Category.values[option] : null)!;
                       });
                     },
-                  ),
-                  const Spacer(),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Cancel'),
-                  ),
-                  ElevatedButton(
-                    onPressed: _submitExpenseData,
-                    child: const Text('Save'),
-                  ),
-                ],
-              )
-            ],
-          )),
-    );
+                  );
+                },
+              ).toList(),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _submitExpenseData,
+              style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 40)),
+              child: const Text('Add Expense'),
+            ),
+            const SizedBox(height: 20),
+          ],
+        ));
   }
 }

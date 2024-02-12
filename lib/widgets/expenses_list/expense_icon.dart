@@ -10,8 +10,8 @@ class ExpenseIcon extends StatelessWidget {
   @override
   Widget build(context) {
     return Container(
-      width: 50,
-      height: 50,
+      width: 45,
+      height: 45,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),

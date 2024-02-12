@@ -79,11 +79,27 @@ class _NewExpenseState extends State<NewExpense> {
     });
   }
 
+  Color getChipColor(Category a, Category b) {
+    if (Theme.of(context).brightness == Brightness.dark) {
+      if (a == b) {
+        return Colors.black;
+      } else {
+        return Colors.white;
+      }
+    } else {
+      if (a == b) {
+        return Colors.white;
+      } else {
+        return Colors.black;
+      }
+    }
+  }
+
   @override
   Widget build(context) {
     return Padding(
         padding: EdgeInsets.only(
-            top: 30,
+            top: 0,
             right: 20,
             left: 20,
             bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -92,12 +108,31 @@ class _NewExpenseState extends State<NewExpense> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Spacer(),
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(Icons.clear_rounded),
+                  style: IconButton.styleFrom(
+                    padding: const EdgeInsets.only(top: 0.0, bottom: 0.0),
+                  ),
+                ),
+              ],
+            ),
             TextField(
               controller: _titleController,
               decoration: const InputDecoration(
                 label: Text('Title'),
                 hintText: 'Carrots',
-                hintStyle: TextStyle(color: Color.fromARGB(255, 171, 171, 171), fontWeight: FontWeight.normal),
+                hintStyle: TextStyle(
+                    color: Color.fromARGB(255, 171, 171, 171),
+                    fontWeight: FontWeight.normal),
                 contentPadding: EdgeInsets.only(top: 0.0, bottom: 0.0),
               ),
               style: const TextStyle(fontWeight: FontWeight.bold),
@@ -110,6 +145,9 @@ class _NewExpenseState extends State<NewExpense> {
                 border: UnderlineInputBorder(),
                 prefixText: '\u{20B9} ',
                 hintText: '0.00',
+                hintStyle: TextStyle(
+                    color: Color.fromARGB(255, 171, 171, 171),
+                    fontWeight: FontWeight.normal),
                 label: Text('Amount'),
                 contentPadding: EdgeInsets.only(top: 0.0, bottom: 0.0),
               ),
@@ -136,17 +174,15 @@ class _NewExpenseState extends State<NewExpense> {
                 Category.values.length,
                 (int option) {
                   return ChoiceChip(
-                    selectedColor: Colors.black,
-                    disabledColor: const Color.fromARGB(255, 225, 231, 239),
+                    selectedColor: Theme.of(context).brightness == Brightness.dark? Colors.white : Colors.black,
                     selected: _selectedCategory == Category.values[option],
                     showCheckmark: false,
                     label: Text(
                       toBeginningOfSentenceCase(
                           Category.values[option].toString().split('.').last),
                       style: TextStyle(
-                          color: _selectedCategory == Category.values[option]
-                              ? Colors.white
-                              : Colors.black),
+                        color: getChipColor(_selectedCategory, Category.values[option])
+                      ),
                     ),
                     onSelected: (bool selected) {
                       setState(() {

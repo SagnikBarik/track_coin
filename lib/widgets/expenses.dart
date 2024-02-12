@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:track_coin/widgets/expenses_list/expenses_history.dart';
 import 'package:track_coin/models/expense_model.dart';
 import 'package:track_coin/widgets/new_expense.dart';
+import 'package:track_coin/widgets/chart/chart.dart';
 
 class Expenses extends StatefulWidget {
   const Expenses({super.key});
@@ -17,40 +18,40 @@ class _ExpancesState extends State<Expenses> {
   final List<Expense> _registeredExpences = [
     Expense(
       title: 'Udemy Course',
-      amount: 19.99,
+      amount: 349,
       date: DateTime.now(),
       category: Category.work,
     ),
     Expense(
       title: 'Spotify Premium',
-      amount: 15.29,
+      amount: 1899,
       date: DateTime.now(),
       category: Category.entertainment,
     ),
     Expense(
       title: 'Dominos',
-      amount: 5.49,
+      amount: 950,
       date: DateTime.now(),
       category: Category.food,
     ),
     Expense(
+      title: 'Vegetables',
+      amount: 110,
+      date: DateTime.now(),
+      category: Category.grocery,
+    ),
+    Expense(
       title: 'Uber',
-      amount: 3.99,
+      amount: 150,
       date: DateTime.now(),
       category: Category.travelling,
     ),
     Expense(
-      title: 'MacBook',
-      amount: 1699,
+      title: 'Speaker',
+      amount: 1599,
       date: DateTime.now(),
       category: Category.shopping,
     ),
-    Expense(
-      title: 'Vegetables',
-      amount: 15.69,
-      date: DateTime.now(),
-      category: Category.grocery,
-    )
   ];
 
   void _addExpense(Expense expense) {
@@ -108,7 +109,7 @@ class _ExpancesState extends State<Expenses> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Track Coin'),
+        title: const Text('TrackCoin', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 25),),
         actions: [
           IconButton(
             onPressed: _openOverlay,
@@ -118,7 +119,8 @@ class _ExpancesState extends State<Expenses> {
       ),
       body: Column(
         children: [
-          const Text('The Chart'),
+          Chart(expenses: _registeredExpences),
+          const SizedBox(height: 15),
           Expanded(
             child: mainContent,
           ),

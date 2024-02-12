@@ -18,7 +18,16 @@ void main() {
           ),
         ),
       ),
-      home: Expenses(),
+      darkTheme: ThemeData.dark().copyWith(
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color.fromARGB(255, 112, 222, 165),
+            foregroundColor: Colors.black,
+          ),
+        ),
+      ),
+      themeMode: ThemeMode.system,
+      home: const Expenses(),
     ),
   );
 }
